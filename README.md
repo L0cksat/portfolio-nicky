@@ -1,3 +1,5 @@
+# Developer and Programmer portfolio
+
 ### This is a beginner's project in the Astro framework to build a developer's portfolio.
 This is something I created using a beginner's tutorial in the **Astro** framework. 
 
