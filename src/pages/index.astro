@@ -12,6 +12,8 @@ import SectionContainer from "../components/SectionContainer.astro";
 import Briefcase from "../components/icons/Briefcase.astro";
 import Code from "../components/icons/Code.astro";
 import Projects from "../components/Projects.astro";
+import Envelope from "../components/icons/Envelope.astro";
+import Contact from "../components/Contact.astro";
 ---
 
 <Layout
@@ -21,12 +23,12 @@ import Projects from "../components/Projects.astro";
     <main class="px-4">
         <SectionContainer class="py-44 pb-24">
             <img
-                class="rounded-full size-12 mb-5"
+                class="rounded-full size-15 mb-5"
                 src="https://m.media-amazon.com/images/S/amzn-author-media-prod/n8r6vpteqnl2f91118uged7dgs._SX300_CR0%2C0%2C300%2C300_.jpg"
                 alt="Nicky photo"
             />
             <h1
-                class="text-white text-3xl md:text-4xl lg:text-5xl font-bold flex flex-row gap-x-4 pb-6 lg:pb-10"
+                class="hero-title text-white text-3xl md:text-4xl lg:text-5xl font-bold flex flex-row gap-x-4 pb-6 lg:pb-10"
             >
                 Hey, I'm Stephen
                 <a
@@ -39,36 +41,41 @@ import Projects from "../components/Projects.astro";
             </h1>
             <h2 class="text-xl lg:text-2xl opacity-80 text-wrap max-w-[700px]">
                 <span class="opacity-80 text-blue-200"
-                    >I'm an Aspiring Junior Web Developer</span> based in <span
-                        class="text-red-400/90">Sp</span
-                    ><span class="text-yellow-400/90">ai</span><span
-                        class="text-red-400/90">n.</span
-                    >
-                    <span>
-                        Originally from <span>W</span><span
-                            class="text-red-500/100">al</span
-                        ><span class="text-green-500/100">es</span>, I'm
-                        training to be a MEAN stack developer.</span
-                    >
+                    >I'm an Aspiring Junior Web Developer</span
+                > based in <span class="text-red-400/90">Sp</span><span
+                    class="text-yellow-400/90">ai</span
+                ><span class="text-red-400/90">n.</span>
+                <span>
+                    Originally from <span>W</span><span class="text-red-500/100"
+                        >al</span
+                    ><span class="text-green-500/100">es</span>, I'm training to
+                    be a MEAN stack developer.</span
+                >
             </h2>
 
             <nav class="flex gap-4 mt-8 flex-wrap">
                 <SocialPill
+                    class="social-pill"
                     href="https://www.linkedin.com/in/stephen-nicholas-jones-de-giorgi-50668449/"
                 >
                     <LinkedIn class="size-4 md:size-6" />
                     LinkedIn
                 </SocialPill>
-                <SocialPill href="https://github.com/L0cksat">
+                <SocialPill
+                    class="social-pill"
+                    href="https://github.com/L0cksat"
+                >
                     <GitHub class="size-4 md:size-6" />
                     GitHub
                 </SocialPill>
-                <SocialPill href="mailto:stephennicholasjones9@gmail.com">
+                <SocialPill
+                    class="social-pill"
+                    href="mailto:stephennicholasjones9@gmail.com"
+                >
                     <Gmail class="size-4 md:size-6" />
                     stephennicholasjones9@gmail.com
                 </SocialPill>
             </nav>
-
         </SectionContainer>
 
         <SectionContainer id="experience">
@@ -86,5 +93,175 @@ import Projects from "../components/Projects.astro";
             </h2>
             <Projects />
         </SectionContainer>
+
+        <SectionContainer id="contact">
+            <h2 class="text-3xl font-semibold mb-10 flex gap-x-3 items-center">
+                <Envelope class="size-8" />
+                Contact
+            </h2>
+            <Contact />
+        </SectionContainer>
     </main>
 </Layout>
+
+<script>
+    // Using GSAP (GreenSock)
+    /* 1. We have to import GSAP into the script, which will
+    then execute on the client side.
+    */
+
+    import { gsap } from "gsap";
+    // We have to import ScrollTrigger to get the scroll effects.
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+    import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+    import Lenis from "lenis";
+
+    // We ALWAYS have to register the Plugin.
+    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+    // Added Lenis for smooth scrolling. We have to configure it.
+    const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        smoothWheel: true,
+        wheelMultiplier: 1,
+        touchMultiplier: 2,
+    });
+
+    //Time loop (mandatory for Lenis to work)
+    //This forces Lenis to update the position in each frame.
+    function raf(time: number) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    /*
+        We have to connect GSAP ScrollTrigger and Lenis to make sure
+        that they function correctly.
+     */
+
+     lenis.on('scroll', ScrollTrigger.update)
+     gsap.ticker.add(time=>{
+        lenis.raf(time * 1000)
+     })
+     gsap.ticker.lagSmoothing(0)
+
+    // 2. We will use GSAP in the following manner:
+    // A. Hero title Animation
+    gsap.from(".hero-title", {
+        y: 50,
+        opacity: 0,
+        duration: 1,
+        ease: "power2.out",
+    });
+
+    // B. Social Pills animation
+    gsap.from("nav .social-pill", {
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: "back.out(1.7)",
+        delay: 0.5,
+    });
+
+    // Sections with scroll animations
+    // C. Tech pill animations
+    gsap.from(".tech-pill", {
+        // ScrollTrigger Object Configuration
+        scrollTrigger: {
+            trigger: "#projects",
+            start: "top 80%",
+            toggleActions: "play none none reverse",
+        },
+        // Animation configuration
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: "power2.out",
+    });
+
+    // D. Social pill animations
+    const pillContainers = ["nav", "#contact"];
+
+    pillContainers.forEach((container) => {
+        const pills = document.querySelectorAll(`${container} .social-pill`);
+
+        if (pills.length > 0) {
+            gsap.from(pills, {
+                scrollTrigger: {
+                    trigger: container,
+                    start: "top 80%",
+                    toggleActions: "play none none reverse",
+                },
+                y: 50,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.2,
+                ease: "back.out(1.7)",
+            });
+        }
+    });
+
+    // E. Mouse Hover animation
+    const pills = document.querySelectorAll(".social-pill");
+
+    pills.forEach((pill) => {
+        pill.addEventListener("mouseenter", () => {
+            gsap.to(pill, {
+                scale: 1.1,
+                duration: 0.2,
+                ease: "power1.out",
+            });
+        });
+
+        pill.addEventListener("mouseleave", () => {
+            gsap.to(pill, {
+                scale: 1,
+                duration: 0.2,
+                ease: "power1.out",
+            });
+        });
+    });
+
+    // F. Header nav menu hover
+    function initMenuScroll(){
+        // Un selector más amplio
+        const menuLinks = document.querySelectorAll('header nav a');
+        
+        console.log("Enlaces encontrados:", menuLinks.length);
+
+        menuLinks.forEach(link => {
+            link.addEventListener("click", (e) => {
+                e.preventDefault();
+                const href = link.getAttribute("href");
+
+                //We are only interested in the links that contain a '#'
+                if (!href || !href.includes('#')) return;
+
+                e.preventDefault();
+
+                //We extract the ID (if the link is "#/contact", we only keep "#contact")
+                const targetId = '#' + href.split('#')[1];
+
+                // If the id is empty (it's only '#' o it is top, we go to 0)
+                const destination = (targetId === '#' || targetId === '#top') ? 0 : targetId;
+
+                console.log("Yendo a:", destination);
+
+                lenis.scrollTo(destination, {
+                    offset: -50,
+                    duration: 1.5,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+                });
+            })
+        })
+    }
+    initMenuScroll();
+
+    document.addEventListener('DOMContentLoaded', initMenuScroll);
+</script>
