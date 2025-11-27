@@ -1,0 +1,52 @@
+---
+import HTML from "./icons/HTML.astro";
+import CSS from "./icons/CSS.astro";
+const TAGS = {
+    HTML: {
+        name: "HTML",
+        class: "bg-[#e95a27]/70 text-white",
+        icon: HTML,
+    },
+    CSS: {
+        name: "CSS",
+        class: "bg-[#2862f0] text-white",
+        icon: CSS,
+    },
+};
+
+const PROJECTS = [
+    {
+        title: "Website Rolf Karlsson Photography",
+        description:
+            "A website for my father-in-law Rolf Karlsson for his bird photography. The website is still under construction and is bare bones. Update coming soon!",
+        link: "https://l0cksat.github.io/Website_Rolf_Karlsson/index.html",
+        github: "https://github.com/L0cksat/Website_Rolf_Karlsson",
+        image: "./projects/RolfKarlsson.webp",
+        tags: [TAGS.HTML, TAGS.CSS],
+    },
+];
+---
+
+{
+    PROJECTS.map(({ image, title, description, tags }) => (
+        <article>
+            <h3 class="text-2xl font-semibold text-blue-200 mb-2">{title}</h3>
+            <p class="text-lg text-pretty mb-4">{description}</p>
+            <ul class="flex gap-x-2 flex-row mb-2">
+                {tags.map((tag) => (
+                    <li>
+                        <span class={`flex gap-x-2 rounded-full text-xs ${tag.class} py-1 px-2 `}>
+                            <tag.icon class="size-6" />
+                            {tag.name}
+                        </span>
+                    </li>
+                ))}
+            </ul>
+            <img
+                class="rounded shadow-2xl shadow-white/25"
+                src={image}
+                alt={`Captura de pantalla del proyecto ${image}`}
+            />
+        </article>
+    ))
+}

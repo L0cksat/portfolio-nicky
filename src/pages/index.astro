@@ -1,11 +1,90 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Badge from "../components/Badge.astro";
+import Welcome from "../components/Welcome.astro";
+import Layout from "../layouts/Layout.astro";
+import LinkedIn from "../components/icons/LinkedIn.astro";
+import Instagram from "../components/icons/Instagram.astro";
+import SocialPill from "../components/SocialPill.astro";
+import GitHub from "../components/icons/GitHub.astro";
+import Gmail from "../components/icons/Gmail.astro";
+import Experience from "../components/Experience.astro";
+import SectionContainer from "../components/SectionContainer.astro";
+import Briefcase from "../components/icons/Briefcase.astro";
+import Code from "../components/icons/Code.astro";
+import Projects from "../components/Projects.astro";
 ---
 
-<Layout>
-	<Welcome />
+<Layout
+    title="Stephen Nicholas Jones - Junior Web Developer & Programmer"
+    description="Hire Stephen Nicholas Jones De Giorgi, the MEAN Stack Developer to create web applications."
+>
+    <main class="px-4">
+        <SectionContainer class="py-44 pb-24">
+            <img
+                class="rounded-full size-12 mb-5"
+                src="https://m.media-amazon.com/images/S/amzn-author-media-prod/n8r6vpteqnl2f91118uged7dgs._SX300_CR0%2C0%2C300%2C300_.jpg"
+                alt="Nicky photo"
+            />
+            <h1
+                class="text-white text-3xl md:text-4xl lg:text-5xl font-bold flex flex-row gap-x-4 pb-6 lg:pb-10"
+            >
+                Hey, I'm Stephen
+                <a
+                    href="https://www.linkedin.com/in/stephen-nicholas-jones-de-giorgi-50668449/"
+                    target="_blank"
+                    rel="noopener"
+                    class="flex justify-center items-center"
+                    ><Badge>Available to hire.</Badge></a
+                >
+            </h1>
+            <h2 class="text-xl lg:text-2xl opacity-80 text-wrap max-w-[700px]">
+                <span class="opacity-80 text-blue-200"
+                    >I'm an Aspiring Junior Web Developer</span> based in <span
+                        class="text-red-400/90">Sp</span
+                    ><span class="text-yellow-400/90">ai</span><span
+                        class="text-red-400/90">n.</span
+                    >
+                    <span>
+                        Originally from <span>W</span><span
+                            class="text-red-500/100">al</span
+                        ><span class="text-green-500/100">es</span>, I'm
+                        training to be a MEAN stack developer.</span
+                    >
+            </h2>
+
+            <nav class="flex gap-4 mt-8 flex-wrap">
+                <SocialPill
+                    href="https://www.linkedin.com/in/stephen-nicholas-jones-de-giorgi-50668449/"
+                >
+                    <LinkedIn class="size-4 md:size-6" />
+                    LinkedIn
+                </SocialPill>
+                <SocialPill href="https://github.com/L0cksat">
+                    <GitHub class="size-4 md:size-6" />
+                    GitHub
+                </SocialPill>
+                <SocialPill href="mailto:stephennicholasjones9@gmail.com">
+                    <Gmail class="size-4 md:size-6" />
+                    stephennicholasjones9@gmail.com
+                </SocialPill>
+            </nav>
+
+        </SectionContainer>
+
+        <SectionContainer id="experience">
+            <h2 class="text-3xl font-semibold mb-10 flex gap-x-3 items-center">
+                <Briefcase class="size-7" />
+                Experience
+            </h2>
+            <Experience />
+        </SectionContainer>
+
+        <SectionContainer id="projects">
+            <h2 class="text-3xl font-semibold mb-10 flex gap-x-3 items-center">
+                <Code class="size-8" />
+                Projects
+            </h2>
+            <Projects />
+        </SectionContainer>
+    </main>
 </Layout>

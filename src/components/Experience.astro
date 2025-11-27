@@ -1,0 +1,35 @@
+---
+import ExperienceItem from "./ExperienceItem.astro";
+
+const EXPERIENCE = [
+    {
+        date: "Currently...",
+        title: "Second Year Web App Development Student - UNIR La Rioja",
+        description:
+            "Currently studying second year of the Web App Development course (DAW) in UNIR La Rioja.",
+        link: '#',
+    },
+    {
+        date: "September 2022 - November 2024",
+        title: "Office Administrator - Kolstad Property",
+        description: "Managing the CRM system (Ego Real Estate), managing and revising real estate portals, managing the office, drafting contracts, overseeing sales, customer service.",
+        link: '#',
+    },
+    {
+        date: "October 2008 - August 2022",
+        title: "Assistant Store Manager - GAME Stores Iberia SL",
+        description: "Managing the TPV system (Jupiter 2), fulfilling monthly sales goals, in charge of supervising the till, supervising and training employees, customer service and problem solving.",
+        link: '#',
+    },
+];
+---
+
+<ol class="relative border-s border-default ml-4">
+    {
+        EXPERIENCE.map(experience => (
+            <li class="mb-10 ms-4">
+                <ExperienceItem {...experience} />
+            </li>
+        ))
+    }
+</ol>
