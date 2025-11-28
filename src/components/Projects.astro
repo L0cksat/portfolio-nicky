@@ -24,6 +24,14 @@ const PROJECTS = [
         image: "./projects/RolfKarlsson.webp",
         tags: [TAGS.HTML, TAGS.CSS],
     },
+
+    {
+        title: "DnD Website World of Erasia",
+        description: "This a website I created to host the lore of my DnD game world called World of Erasia. I also have the audio of the sessions uploaded here too.",
+        link: "https://l0cksat.github.io/worldoferasia.com/characters.html",
+        image: "./projects/WorldOfErasia.webp",
+        tags: [TAGS.HTML, TAGS.CSS],
+    },
 ];
 ---
 
@@ -35,7 +43,7 @@ const PROJECTS = [
             <ul class="flex gap-x-2 flex-row mb-2">
                 {tags.map((tag) => (
                     <li>
-                        <span class={`tech-pill flex gap-x-2 rounded-full text-xs ${tag.class} py-1 px-2 `}>
+                        <span class={`tech-pill flex gap-x-2 rounded-full text-xs ${tag.class} py-1 px-2 items-center`}>
                             <tag.icon class="size-6" />
                             {tag.name}
                         </span>
@@ -43,7 +51,7 @@ const PROJECTS = [
                 ))}
             </ul>
             <img
-                class="rounded shadow-2xl shadow-white/25"
+                class="rounded shadow-2xl shadow-white/25 mb-5"
                 src={image}
                 alt={`Captura de pantalla del proyecto ${image}`}
             />
