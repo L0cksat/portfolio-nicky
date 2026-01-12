@@ -28,6 +28,7 @@ const { description, title } = Astro.props;
       function gtag() {
         dataLayer.push(arguments);
       }
+	  window.gtag = gtag;
       gtag("js", new Date());
 
       gtag("config", "G-1EL2SWHD2J");
