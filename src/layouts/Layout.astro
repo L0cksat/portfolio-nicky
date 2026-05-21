@@ -1,7 +1,7 @@
 ---
 import Header from "../components/Header.astro";
 import "../styles/global.css";
-import "@fontsource-variable/onest";
+import "@fontsource-variable/onest/wght.css";
 import "@fontsource/onest/300.css";
 import "@fontsource/onest/400.css";
 import "@fontsource/onest/500.css";
@@ -57,6 +57,7 @@ const { description, title } = Astro.props;
   }
   html {
     font-family: "Onest Variable", system-ui, sans-serif;
+    color: white;
   }
 
   body {
