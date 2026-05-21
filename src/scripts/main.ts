@@ -206,9 +206,9 @@ initMenuScroll();
 document.addEventListener('DOMContentLoaded', initMenuScroll);
 
 // ---G. Header magnetic hover animation---
-const navLinks = document.querySelectorAll('header nav a, footer ul a');
-
-navLinks.forEach(link => {
+document.addEventListener('DOMContentLoaded', () =>{
+    const navLinks = document.querySelectorAll('header nav a, footer ul a, .experience-link');
+    navLinks.forEach(link => {
     link.addEventListener("mousemove", (e) => {
         const evt = e as MouseEvent;
         const element = link as HTMLElement;
@@ -244,6 +244,10 @@ navLinks.forEach(link => {
         });
     });
 });
+})
+
+
+
 
 // ---Security Refresh---
 // Using this to obligate ScrollTrigger to recalculate where they start and end
