@@ -106,6 +106,9 @@ jobs:
             echo "=== Line counts match? ==="
             echo "File on disk size: $(wc -c < ${{ secrets.VPS_TARGET_DIR }}/index.html)"
             echo "Served file size: $(curl -sL --compressed https://stephennicholasjones.com 2>/dev/null | wc -c)"
+            echo "=== DEFINITIVE TEST: Create unique test file ==="
+            echo "<!-- UNIQUE_TEST_$(date +%s) -->" | sudo tee ${{ secrets.VPS_TARGET_DIR }}/test_deploy.html
+            curl -sL --compressed https://stephennicholasjones.com/test_deploy.html 2>/dev/null
             echo "=== What process listens on port 443 ==="
             sudo ss -tlnp "sport = :443" 2>/dev/null || sudo netstat -tlnp 2>/dev/null | grep :443 || sudo lsof -i :443 2>/dev/null
             echo "=== Apache config test ==="
