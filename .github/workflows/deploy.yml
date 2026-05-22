@@ -48,8 +48,11 @@ jobs:
           script: |
             echo "=== Enabled Apache sites ==="
             ls /etc/apache2/sites-enabled/
-            echo "=== stephennicholasjones.com config ==="
+            echo "=== stephennicholasjones.com HTTP config ==="
             cat /etc/apache2/sites-enabled/stephennicholasjones.com.conf
+            echo ""
+            echo "=== stephennicholasjones.com HTTPS config ==="
+            cat /etc/apache2/sites-enabled/stephennicholasjones.com-le-ssl.conf
             echo "=== Deployed directory contents ==="
             ls -la ${{ secrets.VPS_TARGET_DIR }} | head -20
             echo "=== Target dir ==="
