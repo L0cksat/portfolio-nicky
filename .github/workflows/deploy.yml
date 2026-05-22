@@ -66,12 +66,12 @@ jobs:
             echo "=== Compare file sizes ==="
             echo "File on disk: $(wc -c < ${{ secrets.VPS_TARGET_DIR }}/index.html) bytes"
             echo "File from web: $(curl -sL https://stephennicholasjones.com 2>/dev/null | wc -c) bytes"
-            echo "=== Find old index.html files ==="
-            sudo find /var/www -name "index.html" -type f 2>/dev/null
-            echo "=== Check for duplicate ServerName ==="
-            grep -r "ServerName stephennicholasjones.com" /etc/apache2/ 2>/dev/null
-            echo "=== Apache error log (last 10 lines) ==="
-            sudo tail -10 /var/log/apache2/error.log 2>/dev/null || echo "No error log"
+            echo "=== 000-default.conf ==="
+            cat /etc/apache2/sites-enabled/000-default.conf 2>/dev/null || echo "No 000-default"
+            echo "=== Check which vhost handles port 443 ==="
+            grep -l ":443" /etc/apache2/sites-enabled/*.conf 2>/dev/null
+            echo "=== Find the 16737 byte file ==="
+            sudo find /var/www -name "index.html" -size 16737c 2>/dev/null
 
       - name: Verify and fix permissions
         uses: appleboy/ssh-action@v1.2.2
