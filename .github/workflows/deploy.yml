@@ -76,8 +76,18 @@ jobs:
             stat ${{ secrets.VPS_TARGET_DIR }}/index.html
             echo "=== Check file content hash ==="
             md5sum ${{ secrets.VPS_TARGET_DIR }}/index.html
+            echo "=== Check deflate module ==="
+            apachectl -M 2>/dev/null | grep -i deflate || echo "No deflate module"
+            echo "=== What Apache serves (DECOMPRESSED size) ==="
+            curl -sL --compressed https://stephennicholasjones.com 2>/dev/null | wc -c
+            echo "=== What Apache serves (COMPRESSED size) ==="
+            curl -sL https://stephennicholasjones.com 2>/dev/null | wc -c
+            echo "=== File on disk size ==="
+            wc -c < ${{ secrets.VPS_TARGET_DIR }}/index.html
+            echo "=== Check local DNS resolution ==="
+            nslookup stephennicholasjones.com 2>/dev/null | grep -A1 "Name" || dig stephennicholasjones.com +short
             echo "=== What Apache actually serves (full body first line) ==="
-            curl -sL https://stephennicholasjones.com 2>/dev/null | head -1 | cut -c1-200
+            curl -sL --compressed https://stephennicholasjones.com 2>/dev/null | head -1 | cut -c1-200
 
       - name: Verify and fix permissions
         uses: appleboy/ssh-action@v1.2.2
