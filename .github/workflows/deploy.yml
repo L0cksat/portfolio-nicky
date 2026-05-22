@@ -94,6 +94,12 @@ jobs:
             sudo find /var/www/stephennicholasjones.com -name ".htaccess" 2>/dev/null
             echo "=== Check all enabled SSL configs for ServerName ==="
             grep -A1 "ServerName" /etc/apache2/sites-enabled/*-ssl.conf 2>/dev/null
+            echo "=== Apache full config dump ==="
+            sudo apache2ctl -S 2>&1 | head -30
+            echo "=== Full module list ==="
+            apachectl -M 2>/dev/null | sort
+            echo "=== Check for override configs ==="
+            ls -la /etc/apache2/conf-enabled/ 2>/dev/null
             echo "=== MD5 of what Apache actually serves ==="
             curl -sL --compressed https://stephennicholasjones.com 2>/dev/null | md5sum
             echo "=== MD5 of file on disk ==="
