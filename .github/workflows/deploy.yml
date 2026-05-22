@@ -48,14 +48,12 @@ jobs:
           script: |
             echo "=== Enabled Apache sites ==="
             ls /etc/apache2/sites-enabled/
-            echo "=== Document roots ==="
-            grep -r "DocumentRoot" /etc/apache2/sites-enabled/ || true
+            echo "=== stephennicholasjones.com config ==="
+            cat /etc/apache2/sites-enabled/stephennicholasjones.com.conf
             echo "=== Deployed directory contents ==="
             ls -la ${{ secrets.VPS_TARGET_DIR }} | head -20
             echo "=== Target dir ==="
             echo "${{ secrets.VPS_TARGET_DIR }}"
-            echo "=== Does DocumentRoot match? ==="
-            echo "Compare the DocumentRoot above with the target dir"
 
       - name: Verify and fix permissions
         uses: appleboy/ssh-action@v1.2.2
