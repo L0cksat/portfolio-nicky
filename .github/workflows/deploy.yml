@@ -106,6 +106,8 @@ jobs:
             echo "=== Line counts match? ==="
             echo "File on disk size: $(wc -c < ${{ secrets.VPS_TARGET_DIR }}/index.html)"
             echo "Served file size: $(curl -sL --compressed https://stephennicholasjones.com 2>/dev/null | wc -c)"
+            echo "=== Check ALL index.html sizes under /var/www ==="
+            sudo find /var/www -maxdepth 4 -name "index.html" -type f -exec ls -la {} \; 2>/dev/null
             echo "=== DEFINITIVE TEST: Create unique test file ==="
             echo "<!-- UNIQUE_TEST_$(date +%s) -->" | sudo tee ${{ secrets.VPS_TARGET_DIR }}/test_deploy.html
             curl -sL --compressed https://stephennicholasjones.com/test_deploy.html 2>/dev/null
