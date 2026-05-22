@@ -70,8 +70,14 @@ jobs:
             cat /etc/apache2/sites-enabled/000-default.conf 2>/dev/null || echo "No 000-default"
             echo "=== Check which vhost handles port 443 ==="
             grep -l ":443" /etc/apache2/sites-enabled/*.conf 2>/dev/null
-            echo "=== Find the 16737 byte file ==="
-            sudo find /var/www -name "index.html" -size 16737c 2>/dev/null
+            echo "=== Check if target dir is a symlink ==="
+            ls -la /var/www/stephennicholasjones.com/
+            echo "=== Check actual file details ==="
+            stat ${{ secrets.VPS_TARGET_DIR }}/index.html
+            echo "=== Check file content hash ==="
+            md5sum ${{ secrets.VPS_TARGET_DIR }}/index.html
+            echo "=== What Apache actually serves (full body first line) ==="
+            curl -sL https://stephennicholasjones.com 2>/dev/null | head -1 | cut -c1-200
 
       - name: Verify and fix permissions
         uses: appleboy/ssh-action@v1.2.2
