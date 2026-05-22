@@ -86,8 +86,18 @@ jobs:
             wc -c < ${{ secrets.VPS_TARGET_DIR }}/index.html
             echo "=== Check local DNS resolution ==="
             nslookup stephennicholasjones.com 2>/dev/null | grep -A1 "Name" || dig stephennicholasjones.com +short
-            echo "=== What Apache actually serves (full body first line) ==="
-            curl -sL --compressed https://stephennicholasjones.com 2>/dev/null | head -1 | cut -c1-200
+            echo "=== Check Apache access log for the request ==="
+            sudo tail -5 /var/log/apache2/stephennicholasjones.com_access.log 2>/dev/null || sudo tail -5 /var/log/apache2/access.log 2>/dev/null
+            echo "=== Full verbose curl response ==="
+            curl -sL --compressed -D - https://stephennicholasjones.com 2>/dev/null | head -30
+            echo "=== Check for any .htaccess in parent dirs ==="
+            sudo find /var/www/stephennicholasjones.com -name ".htaccess" 2>/dev/null
+            echo "=== Check all enabled SSL configs for ServerName ==="
+            grep -A1 "ServerName" /etc/apache2/sites-enabled/*-ssl.conf 2>/dev/null
+            echo "=== MD5 of what Apache actually serves ==="
+            curl -sL --compressed https://stephennicholasjones.com 2>/dev/null | md5sum
+            echo "=== MD5 of file on disk ==="
+            md5sum < ${{ secrets.VPS_TARGET_DIR }}/index.html
 
       - name: Verify and fix permissions
         uses: appleboy/ssh-action@v1.2.2
