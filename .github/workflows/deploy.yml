@@ -28,7 +28,6 @@ jobs:
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
-          password: ${{secrets.VPS_PASS}}
           key: ${{ secrets.VPS_SSH_KEY }}
           passphrase: ${{ secrets.VPS_SSH_PASSPHRASE }}
           port: ${{ secrets.VPS_PORT || 22 }}
@@ -36,108 +35,19 @@ jobs:
           target: ${{ secrets.VPS_TARGET_DIR }}
           strip_components: 1
 
-      - name: Debug - check Apache document root
+      - name: Verify deploy & reload Apache
         uses: appleboy/ssh-action@v1.2.2
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
-          password: ${{secrets.VPS_PASS}}
           key: ${{ secrets.VPS_SSH_KEY }}
           passphrase: ${{ secrets.VPS_SSH_PASSPHRASE }}
           port: ${{ secrets.VPS_PORT || 22 }}
           script: |
-            echo "=== Enabled Apache sites ==="
-            ls /etc/apache2/sites-enabled/
-            echo "=== stephennicholasjones.com HTTP config ==="
-            cat /etc/apache2/sites-enabled/stephennicholasjones.com.conf
-            echo ""
-            echo "=== stephennicholasjones.com HTTPS config ==="
-            cat /etc/apache2/sites-enabled/stephennicholasjones.com-le-ssl.conf
-            echo "=== Deployed directory contents ==="
+            echo "Files deployed:"
             ls -la ${{ secrets.VPS_TARGET_DIR }}
-            echo "=== Check .htaccess ==="
-            cat ${{ secrets.VPS_TARGET_DIR }}/.htaccess 2>/dev/null || echo "No .htaccess file"
-            echo "=== Check Apache cache modules ==="
-            apachectl -M 2>/dev/null | grep -i cache || echo "No cache modules"
-            echo "=== Check old files in parent ==="
-            ls -la ${{ secrets.VPS_TARGET_DIR }}/../ | head -10
-            echo "=== External fetch (what the world sees) ==="
-            curl -sI https://stephennicholasjones.com 2>/dev/null | head -15
-            echo "=== Compare file sizes ==="
-            echo "File on disk: $(wc -c < ${{ secrets.VPS_TARGET_DIR }}/index.html) bytes"
-            echo "File from web: $(curl -sL https://stephennicholasjones.com 2>/dev/null | wc -c) bytes"
-            echo "=== 000-default.conf ==="
-            cat /etc/apache2/sites-enabled/000-default.conf 2>/dev/null || echo "No 000-default"
-            echo "=== Check which vhost handles port 443 ==="
-            grep -l ":443" /etc/apache2/sites-enabled/*.conf 2>/dev/null
-            echo "=== Check if target dir is a symlink ==="
-            ls -la /var/www/stephennicholasjones.com/
-            echo "=== Check actual file details ==="
-            stat ${{ secrets.VPS_TARGET_DIR }}/index.html
-            echo "=== Check file content hash ==="
-            md5sum ${{ secrets.VPS_TARGET_DIR }}/index.html
-            echo "=== Check deflate module ==="
-            apachectl -M 2>/dev/null | grep -i deflate || echo "No deflate module"
-            echo "=== What Apache serves (DECOMPRESSED size) ==="
-            curl -sL --compressed https://stephennicholasjones.com 2>/dev/null | wc -c
-            echo "=== What Apache serves (COMPRESSED size) ==="
-            curl -sL https://stephennicholasjones.com 2>/dev/null | wc -c
-            echo "=== File on disk size ==="
-            wc -c < ${{ secrets.VPS_TARGET_DIR }}/index.html
-            echo "=== Check local DNS resolution ==="
-            nslookup stephennicholasjones.com 2>/dev/null | grep -A1 "Name" || dig stephennicholasjones.com +short
-            echo "=== Check Apache access log for the request ==="
-            sudo tail -5 /var/log/apache2/stephennicholasjones.com_access.log 2>/dev/null || sudo tail -5 /var/log/apache2/access.log 2>/dev/null
-            echo "=== Full verbose curl response ==="
-            curl -sL --compressed -D - https://stephennicholasjones.com 2>/dev/null | head -30
-            echo "=== Check for any .htaccess in parent dirs ==="
-            sudo find /var/www/stephennicholasjones.com -name ".htaccess" 2>/dev/null
-            echo "=== Check all enabled SSL configs for ServerName ==="
-            grep -A1 "ServerName" /etc/apache2/sites-enabled/*-ssl.conf 2>/dev/null
-            echo "=== Apache full config dump ==="
-            sudo apache2ctl -S 2>&1 | head -30
-            echo "=== Full module list ==="
-            apachectl -M 2>/dev/null | sort
-            echo "=== Check file type ==="
-            file ${{ secrets.VPS_TARGET_DIR }}/index.html
-            echo "=== Count lines in each ==="
-            echo "File on disk lines: $(wc -l < ${{ secrets.VPS_TARGET_DIR }}/index.html)"
-            echo "Served file lines: $(curl -sL --compressed https://stephennicholasjones.com 2>/dev/null | wc -l)"
-            echo "=== Line counts match? ==="
-            echo "File on disk size: $(wc -c < ${{ secrets.VPS_TARGET_DIR }}/index.html)"
-            echo "Served file size: $(curl -sL --compressed https://stephennicholasjones.com 2>/dev/null | wc -c)"
-            echo "=== Check ALL index.html sizes under /var/www ==="
-            sudo find /var/www -maxdepth 4 -name "index.html" -type f -exec ls -la {} \; 2>/dev/null
-            echo "=== DEFINITIVE TEST: Create unique test file ==="
-            echo "<!-- UNIQUE_TEST_$(date +%s) -->" | sudo tee ${{ secrets.VPS_TARGET_DIR }}/test_deploy.html
-            curl -sL --compressed https://stephennicholasjones.com/test_deploy.html 2>/dev/null
-            echo "=== What process listens on port 443 ==="
-            sudo ss -tlnp "sport = :443" 2>/dev/null || sudo netstat -tlnp 2>/dev/null | grep :443 || sudo lsof -i :443 2>/dev/null
-            echo "=== Apache config test ==="
-            sudo apachectl configtest 2>&1
-            echo "=== Check for any other index files in docroot ==="
-            ls -la ${{ secrets.VPS_TARGET_DIR }} | grep -i index
-            echo "=== Check author.stephennicholasjones.com DocumentRoot ==="
-            grep "DocumentRoot" /etc/apache2/sites-enabled/author.stephennicholasjones.com-le-ssl.conf 2>/dev/null
-            echo "=== Check for override configs ==="
-            ls -la /etc/apache2/conf-enabled/ 2>/dev/null
-            echo "=== MD5 of what Apache actually serves ==="
-            curl -sL --compressed https://stephennicholasjones.com 2>/dev/null | md5sum
-            echo "=== MD5 of file on disk ==="
-            md5sum < ${{ secrets.VPS_TARGET_DIR }}/index.html
-
-      - name: Verify and fix permissions
-        uses: appleboy/ssh-action@v1.2.2
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          password: ${{secrets.VPS_PASS}}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          passphrase: ${{ secrets.VPS_SSH_PASSPHRASE }}
-          port: ${{ secrets.VPS_PORT || 22 }}
-          script: |
-            ls -la ${{ secrets.VPS_TARGET_DIR }}
+            echo "Size check: $(wc -c < ${{ secrets.VPS_TARGET_DIR }}/index.html) bytes"
             sudo chown -R www-data:www-data ${{ secrets.VPS_TARGET_DIR }}
             sudo chmod -R 755 ${{ secrets.VPS_TARGET_DIR }}
             sudo systemctl reload apache2
-            echo "Deployment verified and Apache reloaded"
+            echo "Deploy complete"
