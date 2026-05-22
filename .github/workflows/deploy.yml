@@ -55,13 +55,17 @@ jobs:
             cat /etc/apache2/sites-enabled/stephennicholasjones.com-le-ssl.conf
             echo "=== Deployed directory contents ==="
             ls -la ${{ secrets.VPS_TARGET_DIR }}
-            echo "=== What Apache actually serves (HTTPS) ==="
-            curl -skL -H "Host: stephennicholasjones.com" https://localhost/ | head -20
-            echo "=== index.html on disk (first 5 lines) ==="
-            head -5 ${{ secrets.VPS_TARGET_DIR }}/index.html
-            echo "=== Checking filesize match ==="
-            curl -skL -H "Host: stephennicholasjones.com" https://localhost/ | wc -c
-            wc -c < ${{ secrets.VPS_TARGET_DIR }}/index.html
+            echo "=== Check .htaccess ==="
+            cat ${{ secrets.VPS_TARGET_DIR }}/.htaccess 2>/dev/null || echo "No .htaccess file"
+            echo "=== Check Apache cache modules ==="
+            apachectl -M 2>/dev/null | grep -i cache || echo "No cache modules"
+            echo "=== Check old files in parent ==="
+            ls -la ${{ secrets.VPS_TARGET_DIR }}/../ | head -10
+            echo "=== External fetch (what the world sees) ==="
+            curl -sI https://stephennicholasjones.com 2>/dev/null | head -15
+            echo "=== Compare file sizes ==="
+            echo "File on disk: $(wc -c < ${{ secrets.VPS_TARGET_DIR }}/index.html) bytes"
+            echo "File from web: $(curl -sL https://stephennicholasjones.com 2>/dev/null | wc -c) bytes"
 
       - name: Verify and fix permissions
         uses: appleboy/ssh-action@v1.2.2
