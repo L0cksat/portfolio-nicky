@@ -54,9 +54,11 @@ jobs:
             echo "=== stephennicholasjones.com HTTPS config ==="
             cat /etc/apache2/sites-enabled/stephennicholasjones.com-le-ssl.conf
             echo "=== Deployed directory contents ==="
-            ls -la ${{ secrets.VPS_TARGET_DIR }} | head -20
-            echo "=== Target dir ==="
-            echo "${{ secrets.VPS_TARGET_DIR }}"
+            ls -la ${{ secrets.VPS_TARGET_DIR }}
+            echo "=== What Apache actually serves ==="
+            curl -s -H "Host: stephennicholasjones.com" http://localhost/ | head -20
+            echo "=== index.html first line ==="
+            head -5 ${{ secrets.VPS_TARGET_DIR }}/index.html
 
       - name: Verify and fix permissions
         uses: appleboy/ssh-action@v1.2.2
