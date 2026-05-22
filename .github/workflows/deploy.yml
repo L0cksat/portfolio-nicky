@@ -98,6 +98,12 @@ jobs:
             sudo apache2ctl -S 2>&1 | head -30
             echo "=== Full module list ==="
             apachectl -M 2>/dev/null | sort
+            echo "=== What process listens on port 443 ==="
+            sudo ss -tlnp4 "sport = :443" 2>/dev/null || sudo netstat -tlnp4 2>/dev/null | grep :443
+            echo "=== Check for any other index files in docroot ==="
+            ls -la ${{ secrets.VPS_TARGET_DIR }} | grep -i index
+            echo "=== Check author.stephennicholasjones.com DocumentRoot ==="
+            grep "DocumentRoot" /etc/apache2/sites-enabled/author.stephennicholasjones.com-le-ssl.conf 2>/dev/null
             echo "=== Check for override configs ==="
             ls -la /etc/apache2/conf-enabled/ 2>/dev/null
             echo "=== MD5 of what Apache actually serves ==="
