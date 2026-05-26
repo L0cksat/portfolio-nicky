@@ -11,9 +11,11 @@ import Experience from "../components/Experience.astro";
 import SectionContainer from "../components/SectionContainer.astro";
 import Briefcase from "../components/icons/Briefcase.astro";
 import Code from "../components/icons/Code.astro";
+import Certificate from "../components/icons/Certificate.astro";
 import Projects from "../components/Projects.astro";
 import Envelope from "../components/icons/Envelope.astro";
 import Contact from "../components/Contact.astro";
+import Certifications from "../components/Certifications.astro";
 ---
 
 <Layout
@@ -76,6 +78,14 @@ import Contact from "../components/Contact.astro";
                     stephennicholasjones9@gmail.com
                 </SocialPill>
             </nav>
+        </SectionContainer>
+
+        <SectionContainer id="certifications">
+            <h2 class="text-3xl font-semibold mb-10 flex gap-x-3 items-center">
+                <Certificate class="size 7" />
+                Certifications
+            </h2>
+            <Certifications />
         </SectionContainer>
 
         <SectionContainer id="experience">

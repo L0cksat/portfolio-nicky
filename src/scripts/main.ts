@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', initMenuScroll);
 
 // ---G. Header magnetic hover animation---
 document.addEventListener('DOMContentLoaded', () =>{
-    const navLinks = document.querySelectorAll('header nav a, footer ul a, .experience-link');
+    const navLinks = document.querySelectorAll('header nav a, footer ul a, .experience-link, .certifications-link, .project-link, .email-link');
     navLinks.forEach(link => {
     link.addEventListener("mousemove", (e) => {
         const evt = e as MouseEvent;

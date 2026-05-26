@@ -1,0 +1,50 @@
+---
+const CERTIFICATIONS = [
+  {
+    title: "Higher Technician in Web Application Development",
+    date: "September 2024 -  May 2026",
+    school: "UNIR - La Rioja (Online)",
+    image: "",
+  },
+  {
+    title: "Initiation Course Digital Marketing with AI",
+    date: "10 April 2026 - 12 April 2026",
+    school: "BIG School feat Paula González",
+    image: "./certifications/MarketingDigital.webp",
+  },
+  {
+    title: "Initiation Course 'Development with AI: From 0 to Production'",
+    date: "11 March 2026 - 13 March 2026",
+    school: "BIG School feat Brais Moure",
+    image: "./certifications/ZeroToProd.webp",
+  },
+  {
+    title: "Entrepreneurship Training Course",
+    date: "March 2024 - March 2025",
+    school: "UNIR - La Rioja (Online)",
+    image: "./certifications/EmprendimientoCert.webp",
+  },
+  {
+    title: "Baccalaureate/A-levels in Natural Sciences and Biology",
+    date: "September 2005 - June 2007",
+    school: "I.E.S. Las Lagunas, Torrevieja, Alicante",
+    image: "",
+  },
+];
+---
+
+{CERTIFICATIONS.map(({ title, date, school, image }) => (
+    <article>
+        <h3 class="text-2xl font-semibold text-blue-200 mb-2">{title}</h3>
+        <time class="text-sm font-normal leading-none text-body">{date}</time>
+        <p class="text-lg text-pretty mb-1">{school}</p>
+        <a
+        href={image}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="certifications-link inline-block text-blue-300 mb-4">
+            View Certificate here.
+        </a>
+    </article>
+))
+}
