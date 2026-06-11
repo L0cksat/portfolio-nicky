@@ -7,6 +7,8 @@ import AWS from "./icons/AWS.astro";
 import Bootstrap from "./icons/Bootstrap.astro";
 import Python from "./icons/Python.astro";
 import Spring from "./icons/Spring.astro";
+import Tailwind from "./icons/Tailwind.astro";
+import Flask from "./icons/Flask.astro";
 const TAGS = {
   HTML: {
     name: "HTML",
@@ -48,9 +50,27 @@ const TAGS = {
     class: "bg-[#24441b] text-white",
     icon: Spring,
   },
+  Tailwind: {
+    name: "Tailwind",
+    class: "bg-[#38bdf8] text-white",
+    icon: Tailwind,
+  },
+  Flask: {
+    name: "Flask",
+    class: "bg-[#4c4c4c] text-white",
+    icon: Flask
+  },
 };
 
 const PROJECTS = [
+  {
+    title: "Insta Scraper - An Instagram Scraping tool",
+    description:
+      "A personal passion project. It is an Instagram scraper that downloads posts from a target profile and generates markdown output with embedded images and OCR-extracted text (Project is in V1.1 MVP and still needs some future updates).",
+    link: "https://github.com/L0cksat/InstaScraper",
+    image: "./projects/InstaScraper.webp",
+    tags: [TAGS.Python, TAGS.Flask, TAGS.HTML, TAGS.Tailwind],
+  },
   {
     title: "Quick Growth Audit Chatbot - Clean & Media",
     description:
