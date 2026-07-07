@@ -9,6 +9,8 @@ import Python from "./icons/Python.astro";
 import Spring from "./icons/Spring.astro";
 import Tailwind from "./icons/Tailwind.astro";
 import Flask from "./icons/Flask.astro";
+import AstroF from "./icons/AstroF.astro";
+
 const TAGS = {
   HTML: {
     name: "HTML",
@@ -60,6 +62,11 @@ const TAGS = {
     class: "bg-[#4c4c4c] text-white",
     icon: Flask
   },
+  Astro: {
+    name: "Astro",
+    class: "bg-[#f041ff], text-white",
+    icon: AstroF
+  },
 };
 
 const PROJECTS = [
@@ -100,13 +107,13 @@ const PROJECTS = [
   },
 
   {
-    title: "Website Rolf Karlsson Photography",
+    title: "Website Rolf G. Karlsson Photography",
     description:
       "A website for my father-in-law Rolf Karlsson for his bird photography. The website is still under construction and is bare bones. Update coming soon!",
     link: "https://l0cksat.github.io/Website_Rolf_Karlsson/index.html",
     github: "https://github.com/L0cksat/Website_Rolf_Karlsson",
-    image: "./projects/RolfKarlsson.webp",
-    tags: [TAGS.HTML, TAGS.CSS],
+    image: "./projects/rolf-karlsson.webp",
+    tags: [TAGS.Astro, TAGS.CSS, TAGS.Tailwind],
   },
 ];
 ---
