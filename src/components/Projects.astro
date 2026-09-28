@@ -10,6 +10,9 @@ import Spring from "./icons/Spring.astro";
 import Tailwind from "./icons/Tailwind.astro";
 import Flask from "./icons/Flask.astro";
 import AstroF from "./icons/AstroF.astro";
+import MySQL from "./icons/MySQL.astro";
+import MongoDB from "./icons/MongoDB.astro";
+import Java from "./icons/Java.astro";
 
 const TAGS = {
   HTML: {
@@ -67,9 +70,39 @@ const TAGS = {
     class: "bg-[#f041ff], text-white",
     icon: AstroF
   },
+  MySQL: {
+    name: "MySQL",
+    class: "bg-[#00758F] text-white",
+    icon: MySQL,
+  },
+  MongoDB: {
+    name: "MongoDB",
+    class: "bg-[#247836] text-white",
+    icon: MongoDB,
+  },
+  Java: {
+    name: "Java",
+    class: "bg-[#a75204] text-white",
+    icon: Java,
+  }
 };
 
 const PROJECTS = [
+  {
+    title: "Fantasy Football Tracker Web App - Track your teams across all leagues and seasons.",
+    description:
+      "The dashboard shows your squad, captain chips, club crests, player portraits, week-vs-week compare, season totals, transfers, Injured / Suspended status chips, and season high/low gameweek cards.",
+      link: "https://github.com/L0cksat/fantasy-football-tracker",
+      image: "./projects/fantasy-football-tracker.webp",
+      tags: [TAGS.Angular, TAGS.CSS, TAGS.Tailwind, TAGS.Spring, TAGS.Java, TAGS.MySQL, TAGS.Python],
+  },
+  {
+    title: "Warball - A fantasy sports web simulator",
+    description: "Warball is an automated, browser-based text sports simulation game. Inspired by Blaseball, it translates a fictional sport played in Earisia into a live web dashboard. Matches will eventually require no direct input: the backend will calculate passes, tackles, and shots and broadcast them to the client.",
+    link: "https://github.com/L0cksat/warball",
+    image: "./projects/warball.webp",
+    tags: [TAGS.Angular, TAGS.Tailwind, TAGS.Spring, TAGS.MySQL, TAGS.MongoDB, TAGS.Java],
+  },
   {
     title: "Insta Scraper - An Instagram Scraping tool",
     description:
@@ -94,7 +127,7 @@ const PROJECTS = [
       "Evaluty is a web application designed to democratize access to real estate valuation, allowing any user to obtain a property price estimate without costs or intermediaries. I was part of the development team (Python) (Available in ES only for the moment).",
     link: "https://github.com/L0cksat/TFG-Evaluador-Precios-Viviendas",
     image: "./projects/Evaluty.webp",
-    tags: [TAGS.Angular, TAGS.Bootstrap, TAGS.Python, TAGS.Spring],
+    tags: [TAGS.Angular, TAGS.Bootstrap, TAGS.Python, TAGS.Spring, TAGS.MongoDB, TAGS.Java],
   },
 
   {
