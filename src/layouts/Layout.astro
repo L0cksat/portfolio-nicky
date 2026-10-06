@@ -35,7 +35,7 @@ const { description, title } = Astro.props;
     </script>
 
     <meta name="description" content={description} />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="/img/faviNicky2.png" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
@@ -58,6 +58,8 @@ const { description, title } = Astro.props;
   html {
     font-family: "Onest Variable", system-ui, sans-serif;
     color: white;
+    overflow-x: clip;
+    max-width: 100%;
   }
 
   body {
@@ -65,5 +67,7 @@ const { description, title } = Astro.props;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    overflow-x: clip;
+    max-width: 100%;
   }
 </style>

@@ -160,7 +160,7 @@ const PROJECTS = [
         <a href={link} target="_blank" class="project-link text-sm text-pretty text-blue-300 mb-6">View project here</a>
       {email ? <a href={email} target="_blank" class="email-link text-sm text-pretty text-blue-300">For reference, contact Ryan Menzies here</a> : null}
       </div>
-      <ul class="flex gap-x-2 flex-row mb-2 mt-8">
+      <ul class="flex gap-2 flex-wrap mb-2 mt-8">
         {tags.map((tag) => (
           <li>
             <span
@@ -173,7 +173,7 @@ const PROJECTS = [
         ))}
       </ul>
       <img
-        class="rounded shadow-2xl shadow-white/25 mb-5"
+        class="w-full h-auto max-w-full rounded shadow-2xl shadow-white/25 mb-5"
         src={image}
         alt={`Captura de pantalla del proyecto ${image}`}
       />

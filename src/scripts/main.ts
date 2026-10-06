@@ -33,17 +33,10 @@ const lenis = new Lenis({
     touchMultiplier: 2,
 });
 
-//Time loop (mandatory for Lenis to work)
-//This forces Lenis to update the position in each frame.
-function raf(time: number) {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
-}
-requestAnimationFrame(raf);
-
 /*
-    We have to connect GSAP ScrollTrigger and Lenis to make sure
-    that they function correctly.
+    Connect GSAP ScrollTrigger and Lenis. One ticker only:
+    a second requestAnimationFrame loop steps Lenis twice per frame
+    and desyncs scroll position on mobile browsers.
  */
 
 lenis.on('scroll', ScrollTrigger.update)
@@ -85,7 +78,7 @@ projectCards.forEach((card) => {
             scrollTrigger: {
                 trigger: card,
                 start: "top 85%",
-                toggleActions: "play none none reverse",
+                once: true,
             },
             // Animation configuration
             y: 30,
@@ -93,7 +86,7 @@ projectCards.forEach((card) => {
             duration: 0.8,
             stagger: 0.1,
             ease: "power2.out",
-            immediateRender: false
+            immediateRender: false,
         });
     }
 });
@@ -110,14 +103,16 @@ pillContainers.forEach((container) => {
         gsap.from(pills, {
             scrollTrigger: {
                 trigger: container,
-                start: "top 80%",
-                toggleActions: "play none none reverse",
+                start: "top bottom",
+                once: true,
             },
-            y: 50,
+            y: 30,
             opacity: 0,
             duration: 0.8,
             stagger: 0.2,
             ease: "back.out(1.7)",
+            // Stay visible if the trigger never fires (mobile zoom / toolbar resize).
+            immediateRender: false,
         });
     }
 });
