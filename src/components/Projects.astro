@@ -13,6 +13,14 @@ import AstroF from "./icons/AstroF.astro";
 import MySQL from "./icons/MySQL.astro";
 import MongoDB from "./icons/MongoDB.astro";
 import Java from "./icons/Java.astro";
+import Ollama from "./icons/Ollama.astro";
+import Telegram from "./icons/Telegram.astro";
+import n8n from "./icons/n8n.astro";
+import Docker from "./icons/Docker.astro";
+import Obsidian from "./icons/Obsidian.astro";
+import Qdrant from "./icons/Qdrant.astro";
+import Email from "./icons/Envelope.astro";
+import Apify from "./icons/Apify.astro";
 
 const TAGS = {
   HTML: {
@@ -84,10 +92,66 @@ const TAGS = {
     name: "Java",
     class: "bg-[#a75204] text-white",
     icon: Java,
-  }
+  },
+  Ollama: {
+    name: "Ollama",
+    class: "bg-[#1A1A1A] text-white",
+    icon: Ollama,
+  },
+  Telegram: {
+    name: "Telegram",
+    class: "bg-[#2AABEE] text-white",
+    icon: Telegram,
+  },
+  n8n: {
+    name: "n8n",
+    class: "bg-[#501926] text-white",
+    icon: n8n,
+  },
+  Docker: {
+    name: "Docker",
+    class: "bg-[#10446d] text-white",
+    icon: Docker,
+  },
+  Obsidian: {
+    name: "Obsidian",
+    class: "bg-[#6C31E3] text-white",
+    icon: Obsidian,
+  },
+  Qdrant: {
+    name: "Qdrant",
+    class: "bg-[#1A1A1A] text-white",
+    icon: Qdrant,
+  },
+  Email: {
+    name: "Email",
+    class: "bg-[#D44638] text-white",
+    icon: Email,
+  },
+  Apify: {
+    name: "Apify",
+    class: "bg-[#246dff] text-white",
+    icon: Apify,
+  },
 };
 
 const PROJECTS = [
+  {
+    title: "AI Job Search Assistant - Mr. Jobs",
+    description:
+      "A self-hosted n8n workflow that collects job listings every morning, scores them with a local Ollama model (llama3.1), and keeps a living application tracker in Google Sheets. Matches go out as Telegram alerts and email. Open applications get follow-up reminders, including a flag when a company has gone quiet.",
+      link: "https://github.com/L0cksat/n8n-job-monitor",
+      image: "./projects/n8n-ai-job-search.webp",
+      tags: [TAGS.Ollama, TAGS.Telegram, TAGS.n8n, TAGS.Docker, TAGS.Email, TAGS.Apify],
+  },
+  {
+    title: "Local RAG Agent - Erasia Lore Bot",
+    description:
+      "A 100% locally hosted, containerized Retrieval-Augmented Generation (RAG) architecture. This project orchestrates autonomous AI agents to query a local vector database and deliver highly contextual responses through a Telegram bot interface, without relying on external LLM APIs.",
+      link: "https://github.com/L0cksat/local-rag-agent",
+      image: "./projects/local-rag-agent.webp",
+      tags: [TAGS.Ollama, TAGS.Telegram, TAGS.n8n, TAGS.Docker, TAGS.Obsidian, TAGS.Qdrant],
+  },
   {
     title: "Fantasy Football Tracker Web App - Track your teams across all leagues and seasons.",
     description:
