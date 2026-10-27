@@ -1,14 +1,24 @@
-name: Deploy to VPS
+
+name: Deploy Astro Portfolio
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: portfolio-production
+  cancel-in-progress: true
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -20,34 +30,49 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
+      - name: Build Astro site
         run: npm run build
 
-      - name: Deploy to VPS
-        uses: appleboy/scp-action@v0.1.7
+      - name: Check build output
+        run: test -s dist/index.html
+
+      - name: Upload static site
+        uses: appleboy/scp-action@v1.0.0
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          passphrase: ${{ secrets.VPS_SSH_PASSPHRASE }}
           port: ${{ secrets.VPS_PORT || 22 }}
+          fingerprint: ${{ secrets.VPS_HOST_FINGERPRINT }}
           source: "dist/"
           target: ${{ secrets.VPS_TARGET_DIR }}
           strip_components: 1
+          overwrite: true
 
-      - name: Verify deploy & reload Apache
-        uses: appleboy/ssh-action@v1.2.2
+      - name: Verify remote deployment
+        uses: appleboy/ssh-action@v1.2.5
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          passphrase: ${{ secrets.VPS_SSH_PASSPHRASE }}
           port: ${{ secrets.VPS_PORT || 22 }}
+          fingerprint: ${{ secrets.VPS_HOST_FINGERPRINT }}
           script: |
-            echo "Files deployed:"
-            ls -la ${{ secrets.VPS_TARGET_DIR }}
-            echo "Size check: $(wc -c < ${{ secrets.VPS_TARGET_DIR }}/index.html) bytes"
-            sudo chown -R www-data:www-data ${{ secrets.VPS_TARGET_DIR }}
-            sudo chmod -R 755 ${{ secrets.VPS_TARGET_DIR }}
-            sudo systemctl reload apache2
-            echo "Deploy complete"
+            set -eu
+            test -s /var/www/stephennicholasjones.com/public/index.html
+            echo "Deployment files verified."
+            ls -lah /var/www/stephennicholasjones.com/public
+
+      - name: Check public HTTPS site
+        run: |
+          for attempt in 1 2 3 4 5; do
+            if curl --fail --silent --show-error \
+              https://stephennicholasjones.com/ \
+              --output /dev/null; then
+              echo "HTTPS check passed."
+              exit 0
+            fi
+            sleep 3
+          done
+          echo "HTTPS check failed."
+          exit 1
